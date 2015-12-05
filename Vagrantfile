@@ -82,18 +82,8 @@ cat <<END > /etc/yum.repos.d/ceph-noarch.repo
 name=CentOS-\\$releasever - ceph noarch
 baseurl=https://download.ceph.com/rpm/el\\$releasever/noarch/
 enabled=1
-gpgcheck=0
-#gpgkey='https://ceph.com/git/?p=ceph.git;a=blob_plain;f=keys/release.asc'
-END
-SCRIPT
-  $ceph_basearch_testing_el = <<SCRIPT
-cat <<END > /etc/yum.repos.d/ceph-testing.repo
-[ceph-basearch-testing]
-name=CentOS-\\$releasever - ceph \\$basearch testing
-baseurl=https://download.ceph.com/rpm-testing/el\\$releasever/\\$basearch/
-enabled=0
-gpgcheck=0
-#gpgkey='https://ceph.com/git/?p=ceph.git;a=blob_plain;f=keys/release.asc'
+gpgcheck=1
+gpgkey='https://ceph.com/git/?p=ceph.git;a=blob_plain;f=keys/release.asc'
 END
 SCRIPT
   # key-based ssh using vagrant keys
