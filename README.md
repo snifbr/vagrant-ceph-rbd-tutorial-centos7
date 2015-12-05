@@ -46,7 +46,7 @@ Start three servers and install Ceph packages with::
 The above setup follows loosely the instructions from http://docs.ceph.com/docs/master/rados/deployment/
 
 After having the servers running configure a basic Ceph installation.
-Altough the documentation does not recommend comingling monitors and OSDs on the same host,
+Although the documentation does not recommend comingling monitors and OSDs on the same host,
 this is what is done below. The commands are executed as **ceph** user on
 only one server (**server0** here, though all the servers in this setup are equivalent)::
 
