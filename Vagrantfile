@@ -94,7 +94,7 @@ rm -rf ${home}/.ssh
 ls -al ~vagrant ${home}
 cp -rp ~vagrant/.ssh ${home}
 yum -y install wget
-wget --no-check-certificate https://raw.github.com/mitchellh/vagrant/master/keys/vagrant.pub -O ${home}/.ssh/authorized_keys
+wget --retry-connrefused --waitretry=5 --no-check-certificate https://raw.github.com/mitchellh/vagrant/master/keys/vagrant.pub -O ${home}/.ssh/authorized_keys
 SCRIPT
   # .ssh config
   $dotssh_config = <<SCRIPT

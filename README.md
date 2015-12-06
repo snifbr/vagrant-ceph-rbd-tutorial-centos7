@@ -127,7 +127,7 @@ See http://docs.ceph.com/docs/master/start/quick-rbd/ for more information about
 
 - from an ADMIN node install Ceph on the client::
 
-            $ vagrant ssh server0 -c "sudo su - ceph -c 'ceph-deploy install client0'"
+            $ vagrant ssh server0 -c "sudo su - ceph -c 'ceph-deploy install --release infernalis client0'"
 
 - copy `/etc/ceph/ceph.conf` and keys to the client::
 
