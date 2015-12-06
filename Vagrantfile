@@ -82,8 +82,9 @@ cat <<END > /etc/yum.repos.d/ceph-noarch.repo
 name=CentOS-\\$releasever - ceph noarch
 baseurl=https://download.ceph.com/rpm/el\\$releasever/noarch/
 enabled=1
-gpgcheck=1
-gpgkey='https://ceph.com/git/?p=ceph.git;a=blob_plain;f=keys/release.asc'
+#key retrieval often fails
+gpgcheck=0
+#gpgkey='https://ceph.com/git/?p=ceph.git;a=blob_plain;f=keys/release.asc'
 END
 SCRIPT
   # key-based ssh using vagrant keys
