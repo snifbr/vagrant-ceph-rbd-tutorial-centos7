@@ -24,7 +24,7 @@ Vagrant.configure(2) do |config|
           v.cpus = 1
           # disable VBox time synchronization and use ntp
           v.customize ['setextradata', :id, 'VBoxInternal/Devices/VMMDev/0/Config/GetHostTimeDisabled', 1]
-          # sda and sdb block devices belonging to the servers
+          # sdb and sdc block devices belonging to the servers
           disk = hosts[host]['hostname'] + 'sdb.vdi'
           if !File.exist?(disk)
             v.customize ['createhd', '--filename', disk, '--size', 128, '--variant', 'Fixed']
