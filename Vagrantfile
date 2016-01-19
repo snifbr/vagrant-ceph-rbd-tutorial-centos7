@@ -184,8 +184,6 @@ SCRIPT
           s.args   = hosts[host]['ip'] + ' 255.255.255.0 eth1 Ethernet'
         end
         server.vm.provision :shell, :inline => 'ifup eth1', run: 'always'
-        # https://bugzilla.redhat.com/show_bug.cgi?id=1288313
-        server.vm.provision :shell, :inline => 'yum -y install http://download.ceph.com/rpm-firefly/rhel7/x86_64/libunwind-1.1-3.el7.x86_64.rpm'
         server.vm.provision :shell, :inline => 'yum -y install ceph-deploy'
         # install Ceph packages on all servers
         server.vm.provision :shell, :inline => 'ceph-deploy install --release ' + RELEASE + ' ' + hosts[host]['hostname']
@@ -236,8 +234,6 @@ SCRIPT
           s.args   = hosts[host]['ip'] + ' 255.255.255.0 eth1 Ethernet'
         end
         client.vm.provision :shell, :inline => 'ifup eth1', run: 'always'
-        # https://bugzilla.redhat.com/show_bug.cgi?id=1288313
-        client.vm.provision :shell, :inline => 'yum -y install http://download.ceph.com/rpm-firefly/rhel7/x86_64/libunwind-1.1-3.el7.x86_64.rpm'
         # install and enable ntp
         client.vm.provision :shell, :inline => 'yum -y install ntp'
         client.vm.provision :shell, :inline => 'systemctl enable ntpd'
