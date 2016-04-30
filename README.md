@@ -170,3 +170,18 @@ BSD 2-clause
 ----
 Todo
 ----
+
+
+--------
+Problems
+--------
+
+1. Sat Apr 30 11:14:01 CEST 2016 http://lists.ceph.com/pipermail/ceph-users-ceph.com/2015-December/006780.html
+
+  INFO:ceph-disk:Running command: /usr/bin/udevadm settle --timeout=600
+  INFO:ceph-disk:Running command: /sbin/partprobe /dev/sdc
+  DEBUG:ceph-disk:partprobe /dev/sdc failed : Error: Error informing the kernel about modifications to partition /dev/sdc1 -- Device or resource busy.  This means Linux won't know about any changes you made to /dev/sdc1 until you reboot -- so you shouldn't mount it or use it in any way before rebooting.
+  Error: Failed to add partition 1 (Device or resource busy)
+  ...
+  Failed to execute command: /usr/sbin/ceph-disk -v prepare --cluster ceph --fs-type xfs -- /dev/sdb /dev/sdc
+
