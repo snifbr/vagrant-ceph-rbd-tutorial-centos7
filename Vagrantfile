@@ -150,7 +150,7 @@ SCRIPT
         hosts.keys.sort.each do |k|
           server.vm.provision 'shell' do |s|
             s.inline = $etc_hosts
-            s.args   = hosts[k]['ip'] + ' ' + hosts[k]['hostname']
+            s.args   = [hosts[k]['ip'], hosts[k]['hostname']]
           end
         end
         server.vm.provision :shell, :inline => $linux_disable_ipv6
@@ -161,29 +161,31 @@ SCRIPT
         server.vm.provision :shell, :inline => 'useradd -m ' + USER
         server.vm.provision 'shell' do |s|
           s.inline = $user_sudo
-          s.args   = USER
+          s.args   = [USER]
         end
         server.vm.provision 'shell' do |s|
           s.inline = $key_based_ssh
-          s.args   = USER
+          s.args   = [USER]
         end
         server.vm.provision 'shell' do |s|
           s.inline = $dotssh_chmod_600
-          s.args   = USER
+          s.args   = [USER]
         end
         server.vm.provision 'shell' do |s|
           s.inline = $dotssh_config
-          s.args   = USER
+          s.args   = [USER]
         end
         server.vm.provision 'shell' do |s|
           s.inline = $dotssh_chown
-          s.args   = USER + ' ' + USER
+          s.args   = [USER, USER]
         end
         server.vm.provision 'shell' do |s|
           s.inline = $ifcfg
-          s.args   = hosts[host]['ip'] + ' 255.255.255.0 eth1 Ethernet'
+          s.args   = [hosts[host]['ip'], '255.255.255.0', 'eth1', 'Ethernet']
         end
         server.vm.provision :shell, :inline => 'ifup eth1', run: 'always'
+        # restarting network fixes RTNETLINK answers: File exists
+        server.vm.provision :shell, :inline => 'systemctl restart network', run: 'always'
         server.vm.provision :shell, :inline => 'yum -y install ceph-deploy'
         # install Ceph packages on all servers
         server.vm.provision :shell, :inline => 'ceph-deploy install --release ' + RELEASE + ' ' + hosts[host]['hostname']
@@ -201,7 +203,7 @@ SCRIPT
         hosts.keys.sort.each do |k|
           client.vm.provision 'shell' do |s|
             s.inline = $etc_hosts
-            s.args   = hosts[k]['ip'] + ' ' + hosts[k]['hostname']
+            s.args   = [hosts[k]['ip'], hosts[k]['hostname']]
           end
         end
         client.vm.provision :shell, :inline => $linux_disable_ipv6
@@ -211,29 +213,31 @@ SCRIPT
         client.vm.provision :shell, :inline => 'useradd -m ' + USER
         client.vm.provision 'shell' do |s|
           s.inline = $user_sudo
-          s.args   = USER
+          s.args   = [USER]
         end
         client.vm.provision 'shell' do |s|
           s.inline = $key_based_ssh
-          s.args   = USER
+          s.args   = [USER]
         end
         client.vm.provision 'shell' do |s|
           s.inline = $dotssh_chmod_600
-          s.args   = USER
+          s.args   = [USER]
         end
         client.vm.provision 'shell' do |s|
           s.inline = $dotssh_config
-          s.args   = USER
+          s.args   = [USER]
         end
         client.vm.provision 'shell' do |s|
           s.inline = $dotssh_chown
-          s.args   = USER + ' ' + USER
+          s.args   = [USER, USER]
         end
         client.vm.provision 'shell' do |s|
           s.inline = $ifcfg
-          s.args   = hosts[host]['ip'] + ' 255.255.255.0 eth1 Ethernet'
+          s.args   = [hosts[host]['ip'], '255.255.255.0', 'eth1', 'Ethernet']
         end
         client.vm.provision :shell, :inline => 'ifup eth1', run: 'always'
+        # restarting network fixes RTNETLINK answers: File exists
+        client.vm.provision :shell, :inline => 'systemctl restart network', run: 'always'
         # install and enable ntp
         client.vm.provision :shell, :inline => 'yum -y install ntp'
         client.vm.provision :shell, :inline => 'systemctl enable ntpd'
