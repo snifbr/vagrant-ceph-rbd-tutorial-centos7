@@ -185,7 +185,7 @@ SCRIPT
         end
         server.vm.provision :shell, :inline => 'ifup eth1', run: 'always'
         # restarting network fixes RTNETLINK answers: File exists
-        server.vm.provision :shell, :inline => 'systemctl restart network', run: 'always'
+        server.vm.provision :shell, :inline => 'systemctl restart network'
         server.vm.provision :shell, :inline => 'yum -y install ceph-deploy'
         # install Ceph packages on all servers
         server.vm.provision :shell, :inline => 'ceph-deploy install --release ' + RELEASE + ' ' + hosts[host]['hostname']
@@ -237,7 +237,7 @@ SCRIPT
         end
         client.vm.provision :shell, :inline => 'ifup eth1', run: 'always'
         # restarting network fixes RTNETLINK answers: File exists
-        client.vm.provision :shell, :inline => 'systemctl restart network', run: 'always'
+        client.vm.provision :shell, :inline => 'systemctl restart network'
         # install and enable ntp
         client.vm.provision :shell, :inline => 'yum -y install ntp'
         client.vm.provision :shell, :inline => 'systemctl enable ntpd'
