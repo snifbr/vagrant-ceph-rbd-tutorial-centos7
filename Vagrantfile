@@ -153,8 +153,7 @@ SCRIPT
             s.args   = [hosts[k]['ip'], hosts[k]['hostname']]
           end
         end
-        server.vm.provision :shell, :inline => $linux_disable_ipv6
-        server.vm.provision :shell, :inline => $setenforce_0
+        server.vm.provision :shell, :inline => $setenforce_0, run: 'always'
         server.vm.provision :shell, :inline => $ceph_noarch_el
         # configure key-based ssh for ceph user using vagrant's keys
         server.vm.provision :file, source: '~/.vagrant.d/insecure_private_key', destination: '~vagrant/.ssh/id_rsa'
@@ -186,6 +185,7 @@ SCRIPT
         server.vm.provision :shell, :inline => 'ifup eth1', run: 'always'
         # restarting network fixes RTNETLINK answers: File exists
         server.vm.provision :shell, :inline => 'systemctl restart network'
+        server.vm.provision :shell, :inline => $linux_disable_ipv6, run: 'always'
         server.vm.provision :shell, :inline => 'yum -y install ceph-deploy'
         # install Ceph packages on all servers
         server.vm.provision :shell, :inline => 'ceph-deploy install --release ' + RELEASE + ' ' + hosts[host]['hostname']
@@ -206,8 +206,7 @@ SCRIPT
             s.args   = [hosts[k]['ip'], hosts[k]['hostname']]
           end
         end
-        client.vm.provision :shell, :inline => $linux_disable_ipv6
-        client.vm.provision :shell, :inline => $setenforce_0
+        client.vm.provision :shell, :inline => $setenforce_0, run: 'always'
         # configure key-based ssh for ceph user using vagrant's keys
         client.vm.provision :file, source: '~/.vagrant.d/insecure_private_key', destination: '~vagrant/.ssh/id_rsa'
         client.vm.provision :shell, :inline => 'useradd -m ' + USER
@@ -238,6 +237,7 @@ SCRIPT
         client.vm.provision :shell, :inline => 'ifup eth1', run: 'always'
         # restarting network fixes RTNETLINK answers: File exists
         client.vm.provision :shell, :inline => 'systemctl restart network'
+        client.vm.provision :shell, :inline => $linux_disable_ipv6, run: 'always'
         # install and enable ntp
         client.vm.provision :shell, :inline => 'yum -y install ntp'
         client.vm.provision :shell, :inline => 'systemctl enable ntpd'
